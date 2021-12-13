@@ -2,6 +2,15 @@
 
 // /pipex file1 cmd1 cmd2 file2
 
+int main()
+{
+	
+}
+
+
+
+// WORKS IN MAC/LINUX TERMINAL
+/*
 int	main(int argc, char **argv) 
 {
 	char *args[] = {"ls", "-aF", "/", 0};	/* each element represents a command line argument */
@@ -11,4 +20,4 @@ int	main(int argc, char **argv)
 	execve("/./bin/ls", args, env);
 	perror("execve");	/* if we get here, execve failed */
 	exit(1);
-}
+}*/
