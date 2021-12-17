@@ -25,7 +25,7 @@ static int exec_cmd(t_data var, char *cmdn)
 	int		i;
 
 	i = 0;
-	while (ft_strncmp(*(var.env[i]), "PATH=", 5))
+	while (ft_strncmp(var.env[i], "PATH=", 5))
 		i++;
 	var.env[i] = ft_substr(var.env[i], 6, ft_strlen(var.env[i]));
 	paths = ft_split(var.env[i], ':');
@@ -36,7 +36,7 @@ static int exec_cmd(t_data var, char *cmdn)
 	while (paths[++i])
 	{
 		cmd_path = ft_strjoin(paths[i], args[0]);
-		if (access(cmd_path, F_OK) && acces(cmd_path, X_OK))
+		if (access(cmd_path, F_OK) && access(cmd_path, X_OK))
 			return(ft_error(6, var));
 		execve(cmd_path, args, var.env);
 		//perror
