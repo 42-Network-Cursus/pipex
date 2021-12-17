@@ -10,7 +10,6 @@ typedef struct s_data
 	char	**env;
 }				t_data;
 
-#include <sys/syscall.h>
 #include "libft/libft.h"
 // access, unlink, close, read
 // write, pipe, dup, dup2, execve, fork

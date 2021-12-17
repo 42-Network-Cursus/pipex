@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <fcntl.h>
-#include <errno.h>
+//#include <stdio.h>
+//#include <fcntl.h>
+//#include <errno.h>
 
 typedef struct s_struct
 {
@@ -10,9 +10,7 @@ typedef struct s_struct
 
 int	main(int ac, char **av)
 {
-	t_struct a;
-	if (dup2(5, 1) == -1)
-		printf("dup");
+	acces("usr/bin");
 /*
 	printf("%s\n", a.cmd[0] = "zero");
 	printf("%s\n", a.cmd[1] = "one");
