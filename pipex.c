@@ -4,12 +4,15 @@
 
 static int end_path(char **str, t_data var)
 {
-	while (*str)
+	int i;
+
+	i = 0;
+	while (str[1])
 	{
-		*str = ft_strjoin(*str, "/");
-		if (*str)
+		str[i] = ft_strjoin(str[i], "/");
+		if (str[i])
 			return(ft_error(5, var));
-		*str++;
+		i++;
 	}
 	return (0);
 }
@@ -38,6 +41,7 @@ static int exec_cmd(t_data var, char *cmdn)
 		//perror
 		free(cmd_path);
 	}
+	return (0);
 }
 
 static int	ft_child(t_data var, int n)
