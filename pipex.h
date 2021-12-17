@@ -3,11 +3,11 @@
 
 typedef struct s_data
 {
-	int f1;
-	int f2;
-	char *cmd1;
-	char *cmd2;
-	char **env;
+	int		f1;
+	int		f2;
+	int		end[2]; // 1 == in, 0 == out
+	char	*cmd[2];
+	char	**env;
 }				t_data;
 
 // access, unlink, close, read

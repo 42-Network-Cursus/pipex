@@ -2,120 +2,120 @@
 
 // /pipex file1 cmd1 cmd2 file2
 
-static int end_path(char **str)
+static int end_path(char **str, t_data var)
 {
 	while (*str)
 	{
 		*str = ft_join(*str, "/");
 		if (*str)
-			//error
-		*str++
+			return(ft_error(5, var));
+		*str++;
 	}
+	return (0);
 }
 
-static void exec_cmd(t_data var, char *cmdn)
+static int exec_cmd(t_data var, char *cmdn)
 {
-	char **paths;
-	char **args;
-	char *cmd;
+	char	**paths;
+	char	**args;
+	char	*cmd_path;
+	int		i;
 
-	while (ft_strncmp(*(var->env), "PATH="))
-		*(var->env)++;
-	*(var->env) = ft_substr(*(var->env), 6, ft_strlen(*(var->env)));
-	path = ft_split(*(var->env), ":");
-	if (end_path(path))
-		//error
+	while (ft_strncmp(*(var.env), "PATH="))
+		*(var.env)++;
+	*(var.env) = ft_substr(*(var.env), 6, ft_strlen(*(var.env)));
+	paths = ft_split(*(var.env), ":");
+	if (end_path(paths, var))
+		return (ft_error(5, var));
 	args = ft_split(cmdn, " ");
-
 	i = -1;
 	while (paths[++i])
 	{
-		cmd = ft_join(paths[i]), args[0]);
-		execve(cmd, args, var.env);
+		cmd_path = ft_join(paths[i]), args[0]);
+		if (acces(cmd_path, F_OK) && acces(cmd_path, X_OK))
+			return(ft_error(6, var));
+		execve(cmd_path, args, var.env);
 		//perror
-		free(cmd);
+		free(cmd_path);
 	}
-
 }
 
-static void	ft_child2(t_data var, int *end)
+static int	ft_child(t_data var, int n)
 {
 	int status;
 
-	dup2(var.f2, 1); //out
-	if (== -1)
-		//error
-	dup2(end[0], 0) //in
-	if (== -1)
-		//error
-	close(end[1]);
+	if (dup2(var.f2, 1) == -1)) //out
+		return(ft_error(4, var));
+	if (dup2(var.end[0], 0) == -1) //in
+		return(ft_error(4, var));
+	close(var.end[1]);
 	close(var.f2);
-	exec_cmd(var, var.cmd1); //execve
+	exec_cmd(var, var.cmd[n]); //execve
+	return (0);
 }
 
-static void	ft_child1(t_data var, int *end)
+static int	pipex(t_data var)
 {
-	dup2(var.f1, 0);
-	if	(== -1)
-		//error
-	dup2(end[1], 1); //stdout of 1st cmd is entry of pipe
-	if (== -1)
-		//error
-	close(end[0]);
-	close(var.f1);
-	exec_cmd(var, var.cmd2) //execve
-}
-
-static void	pipex(t_data var)
-{
-	int		end[2]; // 1 == in, 0 == out
+	int		status;
 	pid_t	child1;
 	pid_t	child2;
 	
-	if (!pipe(end))
-		//pipe error
+	if (!pipe(var.end))
+		return(ft_error(2, var));
 	child1 = fork();
 	if (child1 == -1)
-		//error_manager
-	if (child == 0)
-		ft_child1(var, end);
+		return(ft_error(3, var));
+	if (child1 == 0)
+		ft_child(var, 0);
 	child2 = fork();
 	if (child2 == -1)
-		//error
+		return(ft_error(3, var));
 	if (child2 == 0)
-		ft_child2(var, end);
-	close(end[0]);
-	close(end[1]);
+		ft_child(var, 1);
+	close(var.end[0]);
+	close(var.end[1]);
 	waitpid(child1, &status, 0);
 	waitpid(child2, &status, 0);
+	return (0);
+}
+
+static int	ft_error(int n, t_data var)
+{
+	char *src;
+
+	if (n == 1)
+		src = "open";
+	if (n == 2)
+		src = "pipe";
+	if (n == 3)
+		src = "fork";
+	if (n == 4)
+		src = "dup2";
+	if (n == 5)
+		return (write(2, "Malloc failed\n", 15));
+	if (n == 6)
+		src = "acces";
+	perror(src);
+	close(var.f1);
+	close(var.f2);
+	close(var.end[0]);
+	close(var.end[1]);
+	return (1);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	t_data var;
 	
-	//ft_check_args();
-	var.f1 = open("file1");
-	var.f2 = open("file2");
+	if (ac != 5)
+		return (write(2, "Wrong number of arguments\n", 27));
+	var.f1 = open(av[1], O_RDONLY);
+	var.f2 = open(av[4], O_CREAT | O_WRONLY	| O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (var.f1 < 0 || var.f2 < 0)
-		return(-1); //errno ?
-	var.cmd1 = av[2];
-	var.cmd2 = av[4];
+		return(ft_error(1, var));
+	var.cmd[0] = av[2];
+	var.cmd[1] = av[3];
 	var.env = env;
 	pipex(var);
 	return (0);
 }
-
-
-// WORKS IN MAC/LINUX TERMINAL
-/*
-int	main(int argc, char **argv) 
-{
-	char *args[] = {"ls", "-aF", "/", 0};	// each element represents a command line argument
-	char *env[] = { 0 };	// leave the environment list null
-
-	printf("About to run /bin/ls\n");
-	execve("/./bin/ls", args, env);
-	perror("execve");	// if we get here, execve failed 
-	exit(1);
-}*/

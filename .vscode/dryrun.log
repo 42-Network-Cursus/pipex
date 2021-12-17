@@ -1,0 +1,6 @@
+make.exe --dry-run --always-make --keep-going --print-directory
+make: Entering directory 'd:/Github-VSC_SYNC/pipex'
+make: Leaving directory 'd:/Github-VSC_SYNC/pipex'
+ 
+make: *** No targets.  Stop.
+ 
