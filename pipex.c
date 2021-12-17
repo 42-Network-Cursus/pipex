@@ -6,7 +6,7 @@ static int end_path(char **str, t_data var)
 {
 	while (*str)
 	{
-		*str = ft_join(*str, "/");
+		*str = ft_strjoin(*str, "/");
 		if (*str)
 			return(ft_error(5, var));
 		*str++;
@@ -21,17 +21,17 @@ static int exec_cmd(t_data var, char *cmdn)
 	char	*cmd_path;
 	int		i;
 
-	while (ft_strncmp(*(var.env), "PATH="))
+	while (ft_strncmp(*(var.env), "PATH=", 5))
 		*(var.env)++;
 	*(var.env) = ft_substr(*(var.env), 6, ft_strlen(*(var.env)));
-	paths = ft_split(*(var.env), ":");
+	paths = ft_split(*(var.env), ':');
 	if (end_path(paths, var))
 		return (ft_error(5, var));
-	args = ft_split(cmdn, " ");
+	args = ft_split(cmdn, ' ');
 	i = -1;
 	while (paths[++i])
 	{
-		cmd_path = ft_join(paths[i]), args[0]);
+		cmd_path = ft_strjoin(paths[i], args[0]);
 		if (acces(cmd_path, F_OK) && acces(cmd_path, X_OK))
 			return(ft_error(6, var));
 		execve(cmd_path, args, var.env);
@@ -44,7 +44,7 @@ static int	ft_child(t_data var, int n)
 {
 	int status;
 
-	if (dup2(var.f2, 1) == -1)) //out
+	if (dup2(var.f2, 1) == -1) //out
 		return(ft_error(4, var));
 	if (dup2(var.end[0], 0) == -1) //in
 		return(ft_error(4, var));

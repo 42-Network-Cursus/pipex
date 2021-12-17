@@ -10,6 +10,8 @@ typedef struct s_data
 	char	**env;
 }				t_data;
 
+
+#include "libft/libft.h"
 // access, unlink, close, read
 // write, pipe, dup, dup2, execve, fork
 #include <unistd.h>
@@ -19,11 +21,17 @@ typedef struct s_data
 #include <stdlib.h>
 // waitpid, wait, 
 #include <sys/types.h>
-//#include <sys/wait.h>
+#include <sys/wait.h>
 // perror
 #include <stdio.h>
-//#include <errno.h> Needed ?
+#include <errno.h>
 // strerror
 #include <string.h>
 
+static int	pipex(t_data var);
+static int	ft_child(t_data var, int n);
+static int exec_cmd(t_data var, char *cmdn);
+
+static int end_path(char **str, t_data var);
+static int	ft_error(int n, t_data var);
 #endif
