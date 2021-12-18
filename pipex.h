@@ -28,7 +28,8 @@ typedef struct s_data
 #include <string.h>
 
 static int	pipex(t_data var);
-static int	ft_child(t_data var, int n);
+static int	ft_child1(t_data var);
+static int	ft_child2(t_data var);
 static int exec_cmd(t_data var, char *cmdn);
 
 static int end_path(char **str, t_data var);

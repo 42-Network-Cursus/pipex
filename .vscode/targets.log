@@ -8,10 +8,12 @@ make: *** No rule to make target 'pipex.o', needed by 'pipex'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Dec 17 20:07:23 2021
+# Make data base, printed on Sat Dec 18 21:23:03 2021
 
 # Variables
 
+# environment
+FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
 SYSTEMDRIVE = C:
 # environment
@@ -29,7 +31,7 @@ VBOX_MSI_INSTALL_PATH = D:\Oracle\VirtualBox\
 # environment
 LOCALAPPDATA = C:\Users\Cyril Wastchenko\AppData\Local
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-bd2aef9c-7594-440d-a727-993411628ed4-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-d4badb30-25c9-4189-b9dd-ca0f69091c1b-sock
 # environment
 VSCODE_CWD = C:\Users\Cyril Wastchenko\AppData\Local\Programs\Microsoft VS Code
 # environment
@@ -47,7 +49,9 @@ MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
 # environment
 DOKANLIBRARY1_LIBRARYPATH_X64 = C:\Program Files\Dokan\Dokan Library-1.4.1\lib\
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_9188_QHDWMREUUPIEGYVH
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_10032_ZOLMPEVNAQDIWEIG
+# environment
+FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -103,7 +107,7 @@ MAKEFILE_LIST := Makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 9188
+VSCODE_PID = 10032
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # environment
@@ -177,8 +181,6 @@ GNUMAKEFLAGS :=
 # environment
 OS = Windows_NT
 # environment
-__COMPAT_LAYER = DetectorsAppHealth
-# environment
 DOKANLIBRARY1 = C:\Program Files\Dokan\Dokan Library-1.4.1\
 # makefile
 .DEFAULT_GOAL := all
@@ -202,8 +204,7 @@ CFLAGS = -Wall -Wextra -Werror
 HOMEDRIVE = C:
 # environment
 PROCESSOR_ARCHITECTURE = x86
-# envir 
-onment
+# environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
 # environment
 COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
@@ -234,7 +235,7 @@ CC = gcc
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 158 Stepping 9, GenuineIntel
 # variable set hash-table stats:
-# Load=110/1024=11%, Rehash=0, Collisions=16/141=11%
+# Load=111/1024=11%, Rehash=0, Collisions=17/142=12%
 
 # Pattern-specific Variable Values
 
@@ -260,7 +261,8 @@ Makefile:
 #  Successfully updated.
 
 pipex: pipex.o
-#  Implicit rule search has not been done.
+#  Implicit rule search h 
+as not been done.
 #  File does not exist.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 11):
@@ -328,6 +330,6 @@ fclean: clean
 # strcache performance: lookups = 39 / hit rate = 48%
 # hash-table stats:
 # Load=20/8192=0%, Rehash=0, Collisions=0/39=0%
-# Finished Make data base on Fri Dec 17 20:07:23 2021
+# Finished Make data base on Sat Dec 18 21:23:03 2021
 
  

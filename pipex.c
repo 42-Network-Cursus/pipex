@@ -29,24 +29,25 @@ static int exec_cmd(t_data var, char *cmdn)
 		i++;
 	var.env[i] = ft_substr(var.env[i], 6, ft_strlen(var.env[i]));
 	paths = ft_split(var.env[i], ':');
-	
+	//TODEL
 	printf("PATHS\n");
 	i = 0;
 	while (paths[i])
 	{
 		printf("%s\n", paths[i++]);
 	}
-
+	//TO KEEP
 	if (!end_path(paths, var))
 		return (ft_error(5, var));
-	
+	//TO KEEP
+	//TODEL
 	printf("PATHS Ended\n");
 	i = 0;
 	while (paths[i])
 	{
 		printf("%s\n", paths[i++]);
 	}
-	
+
 	args = ft_split(cmdn, ' ');
 	i = -1;
 	while (paths[++i])
@@ -61,15 +62,27 @@ static int exec_cmd(t_data var, char *cmdn)
 	return (0);
 }
 
-static int	ft_child(t_data var, int n)
+static int	ft_child2(t_data var)
 {
-	if (dup2(var.f2, 1) == -1) //out
+	if (dup2(var.f2, 1) == -1)
 		return(ft_error(4, var));
-	if (dup2(var.end[0], 0) == -1) //in
+	if (dup2(var.end[0], 0) == -1)
 		return(ft_error(4, var));
 	close(var.end[1]);
 	close(var.f2);
-	exec_cmd(var, var.cmd[n]); //execve
+	exec_cmd(var, var.cmd[n]);
+	return (0);
+}
+
+static int	ft_child1(t_data var)
+{
+	if (dup2(var.f1, 0) == -1)
+		return(ft_error(4, var));
+	if (dup2(var.end[1], 1) == -1)
+		return(ft_error(4, var));
+	close(var.end[1]);
+	close(var.f2);
+	exec_cmd(var, var.cmd[n]);
 	return (0);
 }
 
@@ -85,12 +98,12 @@ static int	pipex(t_data var)
 	if (child1 == -1)
 		return(ft_error(3, var));
 	if (child1 == 0)
-		ft_child(var, 0);
+		ft_child1(var);
 	child2 = fork();
 	if (child2 == -1)
 		return(ft_error(3, var));
 	if (child2 == 0)
-		ft_child(var, 1);
+		ft_child2(var);
 	close(var.end[0]);
 	close(var.end[1]);
 	waitpid(child1, &status, 0);
