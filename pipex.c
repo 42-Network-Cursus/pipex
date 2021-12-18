@@ -29,8 +29,24 @@ static int exec_cmd(t_data var, char *cmdn)
 		i++;
 	var.env[i] = ft_substr(var.env[i], 6, ft_strlen(var.env[i]));
 	paths = ft_split(var.env[i], ':');
-	if (end_path(paths, var))
+	
+	printf("PATHS\n");
+	i = 0;
+	while (paths[i])
+	{
+		printf("%s\n", paths[i++]);
+	}
+
+	if (!end_path(paths, var))
 		return (ft_error(5, var));
+	
+	printf("PATHS Ended\n");
+	i = 0;
+	while (paths[i])
+	{
+		printf("%s\n", paths[i++]);
+	}
+	
 	args = ft_split(cmdn, ' ');
 	i = -1;
 	while (paths[++i])
