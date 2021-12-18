@@ -47,8 +47,6 @@ static int exec_cmd(t_data var, char *cmdn)
 
 static int	ft_child(t_data var, int n)
 {
-	int status;
-
 	if (dup2(var.f2, 1) == -1) //out
 		return(ft_error(4, var));
 	if (dup2(var.end[0], 0) == -1) //in
@@ -65,7 +63,7 @@ static int	pipex(t_data var)
 	pid_t	child1;
 	pid_t	child2;
 	
-	if (!pipe(var.end))
+	if (pipe(var.end) == -1)
 		return(ft_error(2, var));
 	child1 = fork();
 	if (child1 == -1)

@@ -1,5 +1,5 @@
 make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
+make: *** No rule to make target 'pipex.o', needed by 'pipex'.  Stop.
  
 # GNU Make 4.3
 # Built for Windows32
@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Dec 16 15:00:01 2021
+# Make data base, printed on Fri Dec 17 20:07:23 2021
 
 # Variables
 
@@ -16,8 +16,12 @@ make: *** No rule to make target 'all'.  Stop.
 SYSTEMDRIVE = C:
 # environment
 JAVA_HOME = C:\Program Files\Java\jdk1.8.0_211
+# makefile (from 'Makefile', line 4)
+OBJ = ${SRC:.c=.o}
 # environment
 LC_ALL = C
+# makefile (from 'Makefile', line 3)
+SRC = pipex.c
 # environment
 USERPROFILE = C:\Users\Cyril Wastchenko
 # environment
@@ -177,13 +181,12 @@ __COMPAT_LAYER = DetectorsAppHealth
 # environment
 DOKANLIBRARY1 = C:\Program Files\Dokan\Dokan Library-1.4.1\
 # makefile
-.DEFAULT_GOAL := 
+.DEFAULT_GOAL := all
 # default
 MAKE_VERSION := 4.3
 # environment
 PLATFORMCODE = KV
-# en 
-vironment
+# environment
 PROGRAMFILES(X86) = C:\Program Files (x86)
 # environment
 USERDOMAIN_ROAMINGPROFILE = LAPTOP-5J89K4R6
@@ -193,11 +196,14 @@ NUMBER_OF_PROCESSORS = 4
 PUBLIC = C:\Users\Public
 # environment
 APPDATA = C:\Users\Cyril Wastchenko\AppData\Roaming
+# makefile (from 'Makefile', line 6)
+CFLAGS = -Wall -Wextra -Werror
 # environment
 HOMEDRIVE = C:
 # environment
 PROCESSOR_ARCHITECTURE = x86
-# environment
+# envir 
+onment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
 # environment
 COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
@@ -223,10 +229,12 @@ SESSIONNAME = Console
 REGIONCODE = EMEA
 # environment
 PROCESSOR_REVISION = 9e09
+# makefile (from 'Makefile', line 5)
+CC = gcc
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 158 Stepping 9, GenuineIntel
 # variable set hash-table stats:
-# Load=106/1024=10%, Rehash=0, Collisions=10/132=8%
+# Load=110/1024=11%, Rehash=0, Collisions=16/141=11%
 
 # Pattern-specific Variable Values
 
@@ -234,9 +242,9 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 158 Stepping 9, GenuineIntel
 
 # Directories
 
-# . (key d:/Github-VSC_SYNC/pipex, mtime 1639663197): 9 files, no impossibilities.
+# . (key d:/Github-VSC_SYNC/pipex, mtime 1639767883): 11 files, no impossibilities.
 
-# 9 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -247,9 +255,38 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 158 Stepping 9, GenuineIntel
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-12-15 20:28:50
+#  Last modified 2021-12-17 20:04:52
 #  File has been updated.
 #  Successfully updated.
+
+pipex: pipex.o
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 11):
+		${MAKE} -C ./libft
+		${CC} ${CFLAGS} ${OBJ} ./libft/libft.a -o ${NAME}
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 15):
+		${MAKE} -C ./libft fclean
+		rm -rf ${OBJ}
+
+re: fclean all
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+pipex.o:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
 
 # Not a target:
 .DEFAULT:
@@ -257,27 +294,40 @@ Makefile:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-all:
+all: pipex
+#  Phony target (prerequisite of .PHONY).
 #  Command line target.
-#  Implicit rule search has been done.
+#  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
 
+fclean: clean
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 19):
+		rm -rf ${NAME}
+
+.PHONY: all clean fclean re
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
 # files hash-table stats:
-# Load=4/1024=0%, Rehash=0, Collisions=0/14=0%
+# Load=10/1024=1%, Rehash=0, Collisions=0/31=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 12 / storage = 79 B / avg = 6 B
-# current buf: size = 8174 B / used = 79 B / count = 12 / avg = 6 B
+# strcache buffers: 1 (0) / strings = 20 / storage = 128 B / avg = 6 B
+# current buf: size = 8174 B / used = 128 B / count = 20 / avg = 6 B
 
-# strcache performance: lookups = 16 / hit rate = 25%
+# strcache performance: lookups = 39 / hit rate = 48%
 # hash-table stats:
-# Load=12/8192=0%, Rehash=0, Collisions=0/16=0%
-# Finished Make data base on Thu Dec 16 15:00:01 2021
+# Load=20/8192=0%, Rehash=0, Collisions=0/39=0%
+# Finished Make data base on Fri Dec 17 20:07:23 2021
 
  
