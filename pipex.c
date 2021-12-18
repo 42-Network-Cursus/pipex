@@ -64,7 +64,7 @@ static int exec_cmd(t_data var, char *cmdn)
 
 static int	ft_child2(t_data var)
 {
-	var.f2 = open(av[4], O_CREAT | O_WRONLY	| O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	var.f2 = open(var.av[4], O_CREAT | O_WRONLY	| O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (var.f2 < 0)
 		return(ft_error(1, var));
 	if (dup2(var.f2, 1) == -1)
@@ -79,7 +79,7 @@ static int	ft_child2(t_data var)
 
 static int	ft_child1(t_data var)
 {
-	var.f1 = open(av[1], O_RDONLY);
+	var.f1 = open(var.av[1], O_RDONLY);
 	if (var.f1 < 0)
 		return(ft_error(1, var));
 	if (dup2(var.f1, 0) == -1)
@@ -150,6 +150,7 @@ int	main(int ac, char **av, char **env)
 	var.cmd[0] = av[2];
 	var.cmd[1] = av[3];
 	var.env = env;
+	var.av = av;
 	pipex(var);
 	return (0);
 }
