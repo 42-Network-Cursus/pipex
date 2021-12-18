@@ -10,7 +10,7 @@ static int end_path(char **str, t_data var)
 	while (str[1])
 	{
 		str[i] = ft_strjoin(str[i], "/");
-		if (str[i])
+		if (!str[i])
 			return(ft_error(5, var));
 		i++;
 	}
@@ -88,15 +88,15 @@ static int	ft_error(int n, t_data var)
 
 	if (n == 1)
 		src = "open";
-	if (n == 2)
+	else if (n == 2)
 		src = "pipe";
-	if (n == 3)
+	else if (n == 3)
 		src = "fork";
-	if (n == 4)
+	else if (n == 4)
 		src = "dup2";
-	if (n == 5)
+	else if (n == 5)
 		return (write(2, "Malloc failed\n", 15));
-	if (n == 6)
+	else if (n == 6)
 		src = "acces";
 	perror(src);
 	close(var.f1);
