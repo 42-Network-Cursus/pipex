@@ -64,25 +64,31 @@ static int exec_cmd(t_data var, char *cmdn)
 
 static int	ft_child2(t_data var)
 {
+	var.f2 = open(av[4], O_CREAT | O_WRONLY	| O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	if (var.f2 < 0)
+		return(ft_error(1, var));
 	if (dup2(var.f2, 1) == -1)
 		return(ft_error(4, var));
 	if (dup2(var.end[0], 0) == -1)
 		return(ft_error(4, var));
-	close(var.end[1]);
+	close(var.end[0]);
 	close(var.f2);
-	exec_cmd(var, var.cmd[n]);
+	exec_cmd(var, var.cmd[1]);
 	return (0);
 }
 
 static int	ft_child1(t_data var)
 {
+	var.f1 = open(av[1], O_RDONLY);
+	if (var.f1 < 0)
+		return(ft_error(1, var));
 	if (dup2(var.f1, 0) == -1)
 		return(ft_error(4, var));
 	if (dup2(var.end[1], 1) == -1)
 		return(ft_error(4, var));
 	close(var.end[1]);
-	close(var.f2);
-	exec_cmd(var, var.cmd[n]);
+	close(var.f1);
+	exec_cmd(var, var.cmd[0]);
 	return (0);
 }
 
@@ -141,10 +147,6 @@ int	main(int ac, char **av, char **env)
 	
 	if (ac != 5)
 		return (write(2, "Wrong number of arguments\n", 27));
-	var.f1 = open(av[1], O_RDONLY);
-	var.f2 = open(av[4], O_CREAT | O_WRONLY	| O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-	if (var.f1 < 0 || var.f2 < 0)
-		return(ft_error(1, var));
 	var.cmd[0] = av[2];
 	var.cmd[1] = av[3];
 	var.env = env;
