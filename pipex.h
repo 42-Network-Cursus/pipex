@@ -24,10 +24,9 @@ typedef	struct	s_var
 // strerror
 #include <string.h>
 
-static int	pipex(t_var *data);
-static int	ft_child1(t_var *data, int *end);
-static int	ft_child2(t_var *data, int *end);
-static int exec_cmd(t_var data, char *path, int n);
-static char *find_path(t_var *data, int n);
+static void	error(char *str);
+static void	ft_child1(int *end, char **av, char **env);
+static void	ft_child2(int *end, char **av, char **env);
+static char	*cmd_path(char **env, char *cmd);
 
 #endif
