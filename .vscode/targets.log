@@ -7,8 +7,9 @@ make: *** No rule to make target 'pipex.o', needed by 'pipex'.  Stop.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Sat Dec 18 21:23:03 2021
+# Make data base, printed on Sun Dec 19 09:50:00 2021
 
 # Variables
 
@@ -29,9 +30,10 @@ USERPROFILE = C:\Users\Cyril Wastchenko
 # environment
 VBOX_MSI_INSTALL_PATH = D:\Oracle\VirtualBox\
 # environment
-LOCALAPPDATA = C:\Users\Cyril Wastchenko\AppData\Local
+LOCALAPPDATA = C:\Users\Cy 
+ril Wastchenko\AppData\Local
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-d4badb30-25c9-4189-b9dd-ca0f69091c1b-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-21107ecc-adb1-43da-8617-f72787882594-sock
 # environment
 VSCODE_CWD = C:\Users\Cyril Wastchenko\AppData\Local\Programs\Microsoft VS Code
 # environment
@@ -49,7 +51,7 @@ MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
 # environment
 DOKANLIBRARY1_LIBRARYPATH_X64 = C:\Program Files\Dokan\Dokan Library-1.4.1\lib\
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_10032_ZOLMPEVNAQDIWEIG
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_3680_HOIGYUQLBZTZRKAC
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -107,7 +109,7 @@ MAKEFILE_LIST := Makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 10032
+VSCODE_PID = 3680
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # environment
@@ -157,7 +159,8 @@ CHOCOLATEYLASTPATHUPDATE = 132407843223538680
 # environment
 LOGONSERVER = \\LAPTOP-5J89K4R6
 # environment
-VSCODE_LOG_NATIVE = false
+VSCODE_LOG_NATIVE =  
+false
 # environment
 USERNAME = Cyril Wastchenko
 # environment
@@ -235,7 +238,8 @@ CC = gcc
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 158 Stepping 9, GenuineIntel
 # variable set hash-table stats:
-# Load=111/1024=11%, Rehash=0, Collisions=17/142=12%
+# Load=111/10 
+24=11%, Rehash=0, Collisions=17/142=12%
 
 # Pattern-specific Variable Values
 
@@ -261,8 +265,7 @@ Makefile:
 #  Successfully updated.
 
 pipex: pipex.o
-#  Implicit rule search h 
-as not been done.
+#  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 11):
@@ -322,7 +325,8 @@ fclean: clean
 
 # No 'vpath' search paths.
 
-# No general ('VPATH' variable) search path.
+# No general ('VPATH' variable) sear 
+ch path.
 
 # strcache buffers: 1 (0) / strings = 20 / storage = 128 B / avg = 6 B
 # current buf: size = 8174 B / used = 128 B / count = 20 / avg = 6 B
@@ -330,6 +334,6 @@ fclean: clean
 # strcache performance: lookups = 39 / hit rate = 48%
 # hash-table stats:
 # Load=20/8192=0%, Rehash=0, Collisions=0/39=0%
-# Finished Make data base on Sat Dec 18 21:23:03 2021
+# Finished Make data base on Sun Dec 19 09:50:00 2021
 
  

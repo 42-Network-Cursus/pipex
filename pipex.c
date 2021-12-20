@@ -2,121 +2,117 @@
 
 // /pipex file1 cmd1 cmd2 file2
 
-static int end_path(char **str, t_data var)
-{
-	int i;
-
-	i = 0;
-	while (str[1])
+/*
+	if (!end_path(paths, var))
+		return (ft_error(5, var));
+		while (str[1])
 	{
 		str[i] = ft_strjoin(str[i], "/");
 		if (!str[i])
 			return(ft_error(5, var));
 		i++;
 	}
-	return (0);
-}
+*/
 
-static int exec_cmd(t_data var, char *cmdn)
+static char *find_path(char **av, char **env)
 {
-	char	**paths;
-	char	**args;
-	char	*cmd_path;
 	int		i;
+	char	*paths;
+	char	*cmd;
 
 	i = 0;
-	while (ft_strncmp(var.env[i], "PATH=", 5))
+	while (!ft_strncmp(env[i], "PATH=", 5))
 		i++;
-	var.env[i] = ft_substr(var.env[i], 6, ft_strlen(var.env[i]));
-	paths = ft_split(var.env[i], ':');
-	//TODEL
-	printf("PATHS\n");
-	i = 0;
-	while (paths[i])
-	{
-		printf("%s\n", paths[i++]);
-	}
-	//TO KEEP
-	if (!end_path(paths, var))
-		return (ft_error(5, var));
-	//TO KEEP
-	//TODEL
-	printf("PATHS Ended\n");
-	i = 0;
-	while (paths[i])
-	{
-		printf("%s\n", paths[i++]);
-	}
-
-	args = ft_split(cmdn, ' ');
+	env[i] = ft_substr(env[i], 6, ft_strlen(env[i]));
+	paths = ft_split(env[i], ':');
+	printf("%s\n"paths[0]);
+	printf("%s\n"paths[1]);
+	printf("%s\n"paths[2]);
+	printf("%s\n"paths[3]]);
+	printf("%s\n"paths[4]);
+	printf("%s\n"paths[5]);
+	printf("%s\n"paths[6]);
+	printf("%s\n"paths[7]);
+	cmd = ft_split(cmdn, ' ');
+	if (!env[i] || !paths || !cmd)
+		//malloc error
 	i = -1;
 	while (paths[++i])
 	{
-		cmd_path = ft_strjoin(paths[i], args[0]);
-		if (access(cmd_path, F_OK) && access(cmd_path, X_OK))
-			return(ft_error(6, var));
-		execve(cmd_path, args, var.env);
-		//perror
-		free(cmd_path);
+		cmd = ft_strjoin(paths[i], cmd[0]);
+		if (!cmd)
+			//malloc error
+		if (access(cmd, F_OK) && access(cmd, X_OK))
+			break ;
+		free(cmd);
 	}
-	return (0);
+	return (cmd);
 }
 
-static int	ft_child2(t_data var)
+static void exec_cmd(char *cmd, char *cmd_path, char **env)
 {
-	var.f2 = open(var.av[4], O_CREAT | O_WRONLY	| O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-	if (var.f2 < 0)
-		return(ft_error(1, var));
-	if (dup2(var.f2, 1) == -1)
-		return(ft_error(4, var));
-	if (dup2(var.end[0], 0) == -1)
-		return(ft_error(4, var));
-	close(var.end[0]);
-	close(var.f2);
-	exec_cmd(var, var.cmd[1]);
-	return (0);
+	if (execve(cmd_path, cmd, env == -1)
+		perror("Execve");
+	exit(EXIT_FAILURE);
 }
 
-static int	ft_child1(t_data var)
+static void	ft_child2(int *end, char **av, char *cmd_path, char **env)
 {
-	var.f1 = open(var.av[1], O_RDONLY);
-	if (var.f1 < 0)
-		return(ft_error(1, var));
-	if (dup2(var.f1, 0) == -1)
-		return(ft_error(4, var));
-	if (dup2(var.end[1], 1) == -1)
-		return(ft_error(4, var));
-	close(var.end[1]);
-	close(var.f1);
-	exec_cmd(var, var.cmd[0]);
-	return (0);
+	int f2;
+
+	f2 = open(av[4], O_CREAT | O_WRONLY	| O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	if (f2 < 0)
+		perror("Open");
+	if (dup2(f2, 1) == -1)
+		perror("Dup2");
+	if (dup2(end[0], 0) == -1)
+		perror("Dup2");
+	close(end[0]);
+	close(f2);
+	exec_cmd(av[3], cmd_path, env);
 }
 
-static int	pipex(t_data var)
+static void	ft_child1(int *end, char **av, char *cmd_path, char **env)
 {
+	int f1;
+
+	f1 = open(av[1], O_RDONLY);
+	if (f1 < 0)
+		perror("Open");
+	if (dup2(f1, 0) == -1)
+		perror("Dup2");
+	if (dup2(end[1], 1) == -1)
+		perror("Dup2");
+	close(end[1]);
+	close(f1);
+	exec_cmd(av[2], cmd_path, env);
+}
+
+static void	pipex(char **av, char **env, char *cmd_path)
+{
+	int		end[2];
 	int		status;
 	pid_t	child1;
 	pid_t	child2;
 	
-	if (pipe(var.end) == -1)
-		return(ft_error(2, var));
+	if (pipe(end) == -1)
+		perror("Pipe");
 	child1 = fork();
 	if (child1 == -1)
-		return(ft_error(3, var));
+		perror("Fork");
 	if (child1 == 0)
-		ft_child1(var);
+		ft_child1(end, av, cmd_path, env);
 	child2 = fork();
 	if (child2 == -1)
-		return(ft_error(3, var));
+		perror("Fork");
 	if (child2 == 0)
-		ft_child2(var);
-	close(var.end[0]);
-	close(var.end[1]);
+		ft_child2(end, av, cmd_path, env);
+	close(end[0]);
+	close(end[1]);
 	waitpid(child1, &status, 0);
 	waitpid(child2, &status, 0);
-	return (0);
 }
-
+/*
 static int	ft_error(int n, t_data var)
 {
 	char *src;
@@ -140,17 +136,16 @@ static int	ft_error(int n, t_data var)
 	close(var.end[1]);
 	return (1);
 }
-
+*/
 int	main(int ac, char **av, char **env)
-{
-	t_data var;
-	
+{	
+	char	*cmd_path;
+
 	if (ac != 5)
 		return (write(2, "Wrong number of arguments\n", 27));
-	var.cmd[0] = av[2];
-	var.cmd[1] = av[3];
-	var.env = env;
-	var.av = av;
-	pipex(var);
+	cmd_path = find_path(av, env);
+	if (!cmd_path)
+		//malloc error
+	pipex(av, env, cmd_path);
 	return (0);
 }
