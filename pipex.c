@@ -13,19 +13,19 @@ static char	*cmd_path(char **env, char *cmd)
 	env[i] = ft_substr(env[i], 6, ft_strlen(env[i]));
 	paths = ft_split(env[i], ':');
 	if (!env[i] || !(*paths)) // !paths || !(*paths) ?
- 		//malloc error
+ 		return(merror(env[i], paths]));
 	i = -1;
 	while (paths[++i])
 	{
 		paths[i] = ft_strjoin(paths[i], "/");
 		paths[i] = ft_strjoin(paths[i], cmd);
-		if (paths[i])
-			//malloc error
+		if (!paths[i])
+			return(merror(env[i], paths));
 		if (access(paths[i], F_OK) && access(paths[i], X_OK))
 			return(paths[i]);
 		free(paths[i]);
 	}
-	return(NULL);
+	return(0);
 }
 
 static void	ft_child2(int *end, char **av, char **env)
@@ -36,14 +36,14 @@ static void	ft_child2(int *end, char **av, char **env)
 	tmp = ft_split(av[3], ' ');
 	f2 = open(av[4], O_CREAT | O_WRONLY	| O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (f2 < 0)
-		perror("Open");
+		perror("Open f2");
 	if (dup2(f2, 1) == -1)
-		perror("Dup2");
+		perror("Dup2 f2");
 	if (dup2(end[0], 0) == -1)
-		perror("Dup2");
+		perror("Dup2 f2");
 	close(f2);
 	if (execve(cmd_path(env, tmp[0]), tmp, env) == -1)
-		error("Execve");
+		error("Execve f2");
 }
 
 static void	ft_child1(int *end, char **av, char **env)
@@ -54,14 +54,25 @@ static void	ft_child1(int *end, char **av, char **env)
 	tmp = ft_split(av[2], ' ');
 	f1 = open(av[1], O_RDONLY);
 	if (f1 < 0)
-		error("Open");
+		error("Open f1");
 	if (dup2(f1, 0) == -1)
-		error("Dup2");
+		error("Dup2 f1");
 	if (dup2(end[1], 1) == -1)
-		error("Dup2");
+		error("Dup2 f1");
 	close(f1);
 	if (execve(cmd_path(env, tmp[0]), tmp, env) == -1)
-		error("Execve");
+		error("Execve f1");
+}
+
+static char	*merror(char *s1, char **s2)
+{
+	int i;
+
+	free(s1);
+	i = 0;
+	while (s2[i])
+		free(s2[i++]);
+	return (0);
 }
 
 static void	error(char *str)
