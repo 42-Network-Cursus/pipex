@@ -1,22 +1,26 @@
-//#include <stdio.h>
-//#include <fcntl.h>
-//#include <errno.h>
+#include "pipex.h"
 
-typedef struct s_struct
-{
-	char *cmd[2];
-	int end[2];
-}				t_struct;
+int	main(int ac, char **av, char **env)
+{	
+	int		end[2];
+	pid_t	child[2];
 
-int	main(int ac, char **av)
-{
-	acces("usr/bin");
-/*
-	printf("%s\n", a.cmd[0] = "zero");
-	printf("%s\n", a.cmd[1] = "one");
-	printf("%d\n", a.end[0] = 0);
-	printf("%d\n", a.end[1] = 1);
-	
-	*/
+	if (pipe(end) == -1)
+		error("Pipe");
+	child[0] = fork();	
+	if (child[0] == 0)
+		printf("Child 0\n");
+	else if (child[0] > 0)
+	{
+		child[1] = fork();
+		if (child[0] == -1 || child[1] == -1)
+			error("Fork");
+		if (child[1] == 0)
+			printf("Child 1\n");
+	}
+	waitpid(child[0], NULL, 0);
+	waitpid(child[1], NULL, 0);
+	close(end[0]);
+	close(end[1]);
 	return (0);
 }
