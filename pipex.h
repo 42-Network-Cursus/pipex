@@ -28,5 +28,6 @@ static void	error(char *str);
 static void	ft_child1(int *end, char **av, char **env);
 static void	ft_child2(int *end, char **av, char **env);
 static char	*cmd_path(char **env, char *cmd);
+static char	*merror(char *s1, char **s2);
 
 #endif

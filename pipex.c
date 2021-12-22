@@ -13,7 +13,7 @@ static char	*cmd_path(char **env, char *cmd)
 	env[i] = ft_substr(env[i], 6, ft_strlen(env[i]));
 	paths = ft_split(env[i], ':');
 	if (!env[i] || !(*paths)) // !paths || !(*paths) ?
- 		return(merror(env[i], paths]));
+ 		return(merror(env[i], paths));
 	i = -1;
 	while (paths[++i])
 	{
@@ -21,7 +21,7 @@ static char	*cmd_path(char **env, char *cmd)
 		paths[i] = ft_strjoin(paths[i], cmd);
 		if (!paths[i])
 			return(merror(env[i], paths));
-		if (access(paths[i], F_OK) && access(paths[i], X_OK))
+		if (!access(paths[i], F_OK) && !access(paths[i], X_OK))
 			return(paths[i]);
 		free(paths[i]);
 	}
@@ -44,6 +44,7 @@ static void	ft_child2(int *end, char **av, char **env)
 	close(f2);
 	if (execve(cmd_path(env, tmp[0]), tmp, env) == -1)
 		error("Execve f2");
+	exit(EXIT_SUCCESS);
 }
 
 static void	ft_child1(int *end, char **av, char **env)
@@ -62,6 +63,7 @@ static void	ft_child1(int *end, char **av, char **env)
 	close(f1);
 	if (execve(cmd_path(env, tmp[0]), tmp, env) == -1)
 		error("Execve f1");
+	exit(EXIT_SUCCESS);
 }
 
 static char	*merror(char *s1, char **s2)
@@ -84,24 +86,27 @@ static void	error(char *str)
 int	main(int ac, char **av, char **env)
 {	
 	int		end[2];
-	int		status;
+	//int		status;
 	pid_t	child[2];
 
 	if (ac != 5)
 		return (write(2, "Wrong number of arguments\n", 27));
 	if (pipe(end) == -1)
 		error("Pipe");
-	child[0] = fork();
-	child[1] = fork();
-	if (child[0] == -1 || child[1] == -1)
+	if (child[0] = fork() == -1)
 		error("Fork");	
 	if (child[0] == 0)
 		ft_child1(end, av, env);
-	if (child[1] == 0)
-		ft_child2(end, av, env);
+	else
+	{
+		if (child[1] = fork() == -1)
+			error("Fork");
+		if (child[1] == 0)
+			ft_child2(end, av, env);
+	}
+	waitpid(child[0], NULL, 0);
+	waitpid(child[1], NULL, 0);
 	close(end[0]);
 	close(end[1]);
-	waitpid(child[0], &status, 0);
-	waitpid(child[1], &status, 0);
 	return (0);
 }
