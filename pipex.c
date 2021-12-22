@@ -1,6 +1,7 @@
 #include "pipex.h"
 
-// /pipex file1 cmd1 cmd2 file2
+// CHMOD TESTING
+// SYSTEM TESTING (Leaks)
 
 static char	*cmd_path(char **env, char *cmd)
 {
@@ -32,14 +33,14 @@ static void	ft_parent(int *end, char **av, char **env)
 	tmp = ft_split(av[3], ' ');
 	f_out = open(av[4], O_CREAT | O_WRONLY	| O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (f_out < 0)
-		perror("Open f_out");
+		ft_error("Open");
 	if (dup2(f_out, 1) == -1)
-		perror("Dup2 f_out");
+		ft_error("Dup2");
 	if (dup2(end[0], 0) == -1)
-		perror("Dup2 f_out");
+		ft_error("Dup2");
 	close(end[1]);
 	if (execve(cmd_path(env, tmp[0]), tmp, env) == -1)
-		error("Execve f_out");
+		ft_error("Execve");
 }
 
 static void	ft_child(int *end, char **av, char **env)
@@ -50,17 +51,17 @@ static void	ft_child(int *end, char **av, char **env)
 	tmp = ft_split(av[2], ' ');
 	f_in = open(av[1], O_RDONLY);
 	if (f_in < 0)
-		error("Open f_in");
+		ft_error("Open");
 	if (dup2(f_in, 0) == -1)
-		error("Dup2 f_in");
+		ft_error("Dup2");
 	if (dup2(end[1], 1) == -1)
-		error("Dup2 f_in");
+		ft_error("Dup2");
 	close(end[0]);
 	if (execve(cmd_path(env, tmp[0]), tmp, env) == -1)
-		error("Execve f_in");
+		ft_error("Execve");
 }
 
-static void	error(char *str)
+static void	ft_error(char *str)
 {
 	perror(str);
 	exit(EXIT_FAILURE);
@@ -74,11 +75,11 @@ int	main(int ac, char **av, char **env)
 	if (ac != 5)
 		return (write(2, "Wrong number of arguments\n", 27));
 	if (pipe(end) == -1)
-		error("Pipe");
+		ft_error("Pipe");
 	child = fork();
 	if (child == -1)
-		error("Fork");	
-	if (child[0] == 0)
+		ft_error("Fork");	
+	if (child == 0)
 		ft_child(end, av, env);
 	else
 		ft_parent(end, av, env);
