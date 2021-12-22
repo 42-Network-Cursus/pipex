@@ -93,13 +93,13 @@ int	main(int ac, char **av, char **env)
 		return (write(2, "Wrong number of arguments\n", 27));
 	if (pipe(end) == -1)
 		error("Pipe");
-	if (child[0] = fork() == -1)
-		error("Fork");	
+	child[0] = fork();	
 	if (child[0] == 0)
 		ft_child1(end, av, env);
-	else
+	else if (child[0] > 0)
 	{
-		if (child[1] = fork() == -1)
+		child[1] = fork();
+		if (child[0] == -1 || child[1] == -1)
 			error("Fork");
 		if (child[1] == 0)
 			ft_child2(end, av, env);
