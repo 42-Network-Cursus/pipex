@@ -6,7 +6,7 @@
 /*   By: cwastche <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 13:14:59 by cwastche          #+#    #+#             */
-/*   Updated: 2021/12/23 13:15:01 by cwastche         ###   ########.fr       */
+/*   Updated: 2021/12/27 10:55:03 by cwastche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ static char	*cmd_path(char **env, char *cmd)
 		paths[i] = ft_strjoin(paths[i], "/");
 		paths[i] = ft_strjoin(paths[i], cmd);
 		if (!access(paths[i], F_OK) && !access(paths[i], X_OK))
-			return(paths[i]);
+			return (paths[i]);
 		free(paths[i]);
 	}
-	return(0);
+	return (0);
 }
 
 static void	ft_parent(int *end, char **av, char **env)
@@ -40,7 +40,8 @@ static void	ft_parent(int *end, char **av, char **env)
 	char	**tmp;
 
 	tmp = ft_split(av[3], ' ');
-	f_out = open(av[4], O_CREAT | O_WRONLY	| O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	f_out = open(av[4], O_CREAT | O_WRONLY | O_TRUNC,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (f_out < 0)
 		ft_error("Open");
 	if (dup2(f_out, 1) == -1)
@@ -87,7 +88,7 @@ int	main(int ac, char **av, char **env)
 		ft_error("Pipe");
 	child = fork();
 	if (child == -1)
-		ft_error("Fork");	
+		ft_error("Fork");
 	if (child == 0)
 		ft_child(end, av, env);
 	else
