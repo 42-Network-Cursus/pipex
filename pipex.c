@@ -12,6 +12,9 @@
 
 #include "pipex.h"
 
+// if child breaks, parent continues
+// to add: loop child + wait until signal before launching parent
+
 static char	*cmd_path(char **env, char *cmd)
 {
 	int		i;
